@@ -1,47 +1,71 @@
-from queue import Empty
-
-
-class Queue:
-
-    def __init__(self):
-        self.fila = []
-
-    def size(self):
-        return len(self.fila)
-
-    def empty(self):
-        if self.size() == 0:
-            print("Fila Vazia")
-
-        else:
-            print("Fila Não esta vazia")
-
-    def push(self,item):
-        self.fila.append(item)
-
-    def remove(self):
-        self.fila.pop(0)
-
-    def peek(self):
-        if self.empty == False:
-           print("fila vazia")
-        else:
-            return len(self.fila)-1
-            
-    def interacao(self):
-        for i in self.fila:
-            print("Ação:",i[0])
-
-    def __repr__(self) -> str:
-        return f'Queue({self.fila}' 
-
-node = Queue()
-
-for valor in range(3):
-    acao = input(f'quantidade ações e o valor do dia {valor+1}:').split()
-    node.push(acao)
+class FilaArray:
     
+    CAPACIDADE_PADRAO = 10
+    
+    def __init__(self):
+        self._dados = [[None]] * FilaArray.CAPACIDADE_PADRAO
+        self._tamanho = 0
+        self._inicio = 0
+            
+    def push(self,elem):
+        disponivel = (self._inicio + self._tamanho) % len(self._dados)
+        self._dados[disponivel] = elem
+        self._tamanho += 1
+        
+    def pop(self):
+        result = self._dados[self._inicio]
+        self._dados[self._inicio] = None
+        self._inicio = (self._inicio + 1) % len(self._dados)
+        self._tamanho -= 1
+        return result
+                
+    
+    def comprarAcao(self):
+        quatidadeAcao,valor =input("Comprar acção: \n Quantidade e Valor").split()
+        
+        adicionarComprarACao =[int(quatidadeAcao),int(valor)]
+        
+        self.push(adicionarComprarACao)
 
-node.interacao()
-print(node) 
-print(node.size())
+        
+    def venderAcao():
+        pass
+    
+    def desfazerOperacao():
+        pass
+            
+
+           
+    def transicoes(self):
+        while(True):
+            escolha = int(input("Seja bem-vindx escolha uma das operações abaixo: \n 1-comprar ação(ões) \n 2-vender ação(ões) \n 3-Desfazer Operação Anterior \n 4-Sair \n"))
+            if escolha == 1:
+                self.comprarAcao()
+            elif escolha == 2:
+                self.venderAcao()
+            elif escolha == 3:
+                self.desfazerOperacao()
+            elif escolha == 4:
+                break
+            else:
+                print("Operação invalida")
+                
+            
+    def __len__(self):
+        return self._tamanho
+
+    def is_empty(self):
+        return self._tamanho == 0
+        
+    def __str__(self):
+        posicao = self._inicio
+        result = "Quantidade Ação:"
+        for k in range(self._tamanho):
+            result += str(self._dados[0])
+        return result
+
+lista = FilaArray()
+
+lista.transicoes()
+
+print(lista)
